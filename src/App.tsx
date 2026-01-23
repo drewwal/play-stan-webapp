@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import type { GameState, Guess } from "./game";
 import { initialState, commitGuess } from "./game";
 import { CardDisplay } from "./components/CardDisplay";
-import catImage from "/cat.jpg";
+import catImage from "./assets/cat.jpg";
 import "./App.css";
 
 function App() {
