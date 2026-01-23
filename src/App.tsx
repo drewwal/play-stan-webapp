@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import type { GameState, Guess } from "./game";
 import { initialState, commitGuess } from "./game";
 import { CardDisplay } from "./components/CardDisplay";
+import catImage from "/cat.jpg";
 import "./App.css";
 
 function App() {
@@ -86,7 +87,7 @@ function App() {
         {/* Stan's Commentary */}
         {gameState.message && (
           <div className="stan-commentary">
-            <img src="/cat.jpg" alt="Stan the cat" className="stan-avatar" />
+            <img src={catImage} alt="Stan the cat" className="stan-avatar" />
             <div className="speech-bubble">
               {gameState.message}
             </div>
