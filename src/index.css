@@ -3,14 +3,17 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  background: linear-gradient(135deg, #ffd6e8 0%, #c9b6e4 25%, #a8d8ea 50%, #b4e7ce 75%, #ffe5d9 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -24,10 +27,16 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
+  width: 100%;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
 }
 
 h1 {

@@ -1,4 +1,5 @@
 import type { Card, GameState, Guess, Rank, Suit } from "./types";
+import { getStanMessage } from "./stanMessages";
 
 /**
  * Creates a new standard 52-card deck in deterministic order.
@@ -77,7 +78,7 @@ export function initialState(): GameState {
     lastDrawnCard: undefined,
     lastOutcome: undefined,
     lastDelta: undefined,
-    message: "Make your guess!",
+    message: getStanMessage({ outcome: "start" }),
     gameOver: false,
   };
 }
@@ -144,6 +145,7 @@ export function commitGuess(
   
   // Determine outcome
   let outcome: "win" | "loss";
+  let isTie = false;
   if (nextCard.rank > state.currentCard.rank && guess === "higher") {
     outcome = "win";
   } else if (nextCard.rank < state.currentCard.rank && guess === "lower") {
@@ -151,6 +153,9 @@ export function commitGuess(
   } else {
     // Equal ranks or wrong guess → loss
     outcome = "loss";
+    if (nextCard.rank === state.currentCard.rank) {
+      isTie = true;
+    }
   }
   
   // Calculate chip change
@@ -160,20 +165,21 @@ export function commitGuess(
   // Check if game over
   const gameOver = newChips <= 0 || remainingDeck.length === 0;
   
-  // Build message
-  let message = "";
-  if (outcome === "win") {
-    message = `You won ${bet} chips! `;
-  } else {
-    message = `You lost ${bet} chips. `;
-  }
-  
+  // Get Stan's cheeky message
+  let message: string;
   if (gameOver) {
     if (newChips <= 0) {
-      message += "Out of chips. Game over!";
-    } else if (remainingDeck.length === 0) {
-      message += "No more cards. Game over!";
+      message = getStanMessage({ outcome: "gameOver", reason: "chips" });
+    } else {
+      message = getStanMessage({ outcome: "gameOver", reason: "deck", chips: newChips });
     }
+  } else {
+    message = getStanMessage({ 
+      outcome, 
+      bet, 
+      chips: newChips,
+      reason: isTie ? "tie" : undefined 
+    });
   }
   
   return {

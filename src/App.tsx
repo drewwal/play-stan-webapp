@@ -27,6 +27,23 @@ function App() {
     setBet(1);
   };
 
+  // Handle bet adjustments
+  const handleDecreaseBet = () => {
+    setBet(Math.max(1, bet - 1));
+  };
+
+  const handleIncreaseBet = () => {
+    setBet(Math.min(gameState.chips, bet + 1));
+  };
+
+  const handleHalfBet = () => {
+    setBet(Math.max(1, Math.floor(gameState.chips / 2)));
+  };
+
+  const handleMaxBet = () => {
+    setBet(gameState.chips);
+  };
+
   // Handle commit button
   const handleCommit = () => {
     if (guess === null) return;
@@ -52,8 +69,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Play Stan</h1>
-        <img src="/cat.jpg" alt="Stan the cat" className="stan-image" />
+        <h1>Cards with Stan</h1>
       </header>
 
       <main className="game-container">
@@ -67,23 +83,28 @@ function App() {
           </div>
         </div>
 
-        {/* Message */}
+        {/* Stan's Commentary */}
         {gameState.message && (
-          <div className={`message ${gameState.gameOver ? "game-over" : ""}`}>
-            {gameState.message}
+          <div className="stan-commentary">
+            <img src="/cat.jpg" alt="Stan the cat" className="stan-avatar" />
+            <div className="speech-bubble">
+              {gameState.message}
+            </div>
           </div>
         )}
 
         {/* Card Display */}
         <div className="cards">
           <CardDisplay card={gameState.currentCard} label="Current Card" />
-          {gameState.lastDrawnCard && (
+          {gameState.lastOutcome && (
             <div className="last-card-info">
-              <div>Last round outcome: <strong>{gameState.lastOutcome}</strong></div>
-              <div>
-                Chips {gameState.lastDelta && gameState.lastDelta > 0 ? "+" : ""}
-                {gameState.lastDelta}
-              </div>
+              <span className={gameState.lastOutcome === "win" ? "result-win" : "result-loss"}>
+                {gameState.lastOutcome === "win" ? "✓ You won!" : "✗ You lost!"}
+              </span>
+              <span className="chip-change">
+                {" "}{gameState.lastDelta && gameState.lastDelta > 0 ? "+" : ""}
+                {gameState.lastDelta} chips
+              </span>
             </div>
           )}
         </div>
@@ -91,34 +112,71 @@ function App() {
         {/* Controls */}
         <div className="controls">
           <div className="control-group">
-            <label htmlFor="bet-input">Bet:</label>
-            <input
-              id="bet-input"
-              type="number"
-              min={1}
-              max={gameState.chips}
-              value={bet}
-              onChange={(e) => setBet(parseInt(e.target.value) || 1)}
-              disabled={gameState.gameOver}
-            />
+            <label htmlFor="bet-input">Bet Your Chips:</label>
+            <div className="bet-controls">
+              <div className="bet-stepper">
+                <button
+                  className="bet-button"
+                  onClick={handleDecreaseBet}
+                  disabled={gameState.gameOver || bet <= 1}
+                  aria-label="Decrease bet"
+                >
+                  −
+                </button>
+                <input
+                  id="bet-input"
+                  type="number"
+                  min={1}
+                  max={gameState.chips}
+                  value={bet}
+                  onChange={(e) => setBet(parseInt(e.target.value) || 1)}
+                  disabled={gameState.gameOver}
+                  className="bet-input"
+                />
+                <button
+                  className="bet-button"
+                  onClick={handleIncreaseBet}
+                  disabled={gameState.gameOver || bet >= gameState.chips}
+                  aria-label="Increase bet"
+                >
+                  +
+                </button>
+              </div>
+              <div className="bet-quick-buttons">
+                <button
+                  className="quick-bet-button"
+                  onClick={handleHalfBet}
+                  disabled={gameState.gameOver}
+                >
+                  Half: {Math.max(1, Math.floor(gameState.chips / 2))}
+                </button>
+                <button
+                  className="quick-bet-button"
+                  onClick={handleMaxBet}
+                  disabled={gameState.gameOver}
+                >
+                  Max: {gameState.chips}
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="control-group">
             <label>Guess:</label>
             <div className="guess-buttons">
               <button
-                className={`guess-button ${guess === "lower" ? "selected" : ""}`}
+                className={`guess-button lower ${guess === "lower" ? "selected" : ""}`}
                 onClick={() => setGuess("lower")}
                 disabled={gameState.gameOver}
               >
-                Lower
+                ↓ Lower
               </button>
               <button
-                className={`guess-button ${guess === "higher" ? "selected" : ""}`}
+                className={`guess-button higher ${guess === "higher" ? "selected" : ""}`}
                 onClick={() => setGuess("higher")}
                 disabled={gameState.gameOver}
               >
-                Higher
+                ↑ Higher
               </button>
             </div>
           </div>
