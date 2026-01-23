@@ -1,53 +1,110 @@
-# React + TypeScript + Vite
+# Cards with Stan 🃏
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A playful "Higher or Lower" card game where you try to outsmart Stan, a cheeky cat who provides running commentary on your gameplay. Built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+**Play it live:** [https://drewwal.github.io/play-stan-webapp](https://drewwal.github.io/play-stan-webapp)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How It Works
 
-## React Compiler
+### Game Rules
+- Start with 3 chips
+- Each round, bet chips and guess if the next card will be **Higher** or **Lower**
+- Win: double your bet. Lose: lose your bet
+- **Ties count as losses!**
+- Game ends when you run out of chips or cards
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Technical Architecture
 
-## Expanding the ESLint configuration
+The app is built with a clean separation between game logic and UI:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Pure Game Logic** (`src/game/`)
+- `types.ts` - TypeScript interfaces for Card, GameState, Guess, Outcome
+- `game.ts` - Pure functions for deck creation, shuffling (Fisher-Yates), card drawing, and game state transitions
+- `stanMessages.ts` - Context-aware personality system with 100+ cheeky messages
+- `game.test.ts` - 29 unit tests covering all game logic
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**React UI** (`src/`)
+- `App.tsx` - Main game component with state management and event handlers
+- `App.css` - Pastel gradient theme with responsive grid layout
+- `components/CardDisplay.tsx` - Reusable card rendering component
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+play-stan-webapp/
+├── src/
+│   ├── game/              # Pure game logic (framework-agnostic)
+│   │   ├── types.ts       # TypeScript type definitions
+│   │   ├── game.ts        # Core game functions
+│   │   ├── stanMessages.ts # Cat personality system
+│   │   ├── game.test.ts   # Unit tests
+│   │   └── index.ts       # Barrel export
+│   ├── components/
+│   │   └── CardDisplay.tsx # Card rendering component
+│   ├── assets/
+│   │   └── cat.jpg        # Stan's avatar
+│   ├── App.tsx            # Main React component
+│   ├── App.css            # Styling
+│   ├── index.css          # Global styles
+│   └── main.tsx           # React entry point
+├── public/                # Static assets
+├── spec.md                # Detailed game specification
+├── vite.config.ts         # Vite + Vitest configuration
+├── package.json           # Dependencies & scripts
+└── tsconfig.json          # TypeScript configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
+### Prerequisites
+- Node.js (v18+)
+- npm
+
+### Setup
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Run tests
+npm test
+
+# Run tests with UI
+npm test:ui
+```
+
+### Build & Deploy
+```bash
+# Build for production
+npm run build
+
+# Deploy to GitHub Pages
+npm run deploy
+```
+
+## Key Features
+
+- **Pure Function Architecture**: Game logic is completely separate from UI, making it testable and reusable
+- **Comprehensive Testing**: 29 unit tests ensure correct deck logic, betting, and win/loss conditions
+- **Uniform Randomness**: Fisher-Yates shuffle ensures fair card distribution
+- **Stan's Personality**: 100+ context-aware messages that react to your bets, wins, losses, and game state
+- **Responsive Design**: Works on mobile and desktop with CSS Grid layout
+- **Pastel Theme**: Fun, animated gradient background with playful styling
+
+## Tech Stack
+
+- **React 19** - UI framework
+- **TypeScript 5.9** - Type safety
+- **Vite 7.2** - Build tool & dev server
+- **Vitest 4.0** - Testing framework
+- **CSS Grid & Flexbox** - Responsive layout
+- **GitHub Pages** - Deployment
+
+## License
+
+MIT
 import reactDom from 'eslint-plugin-react-dom'
 
 export default defineConfig([
