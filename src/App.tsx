@@ -82,6 +82,9 @@ function App() {
           <div className="status-item">
             <strong>Cards Left:</strong> {gameState.deck.length}
           </div>
+          <button className="new-game-button" onClick={handleNewGame}>
+            New Game
+          </button>
         </div>
 
         {/* Stan's Commentary */}
@@ -188,10 +191,6 @@ function App() {
             disabled={!canCommit}
           >
             Commit
-          </button>
-
-          <button className="new-game-button" onClick={handleNewGame}>
-            New Game
           </button>
         </div>
       </main>
