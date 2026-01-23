@@ -1,6 +1,6 @@
 # Cards with Stan 🃏
 
-A playful "Higher or Lower" card game where you try to outsmart Stan, a cheeky cat who provides running commentary on your gameplay. Built with React, TypeScript, and Vite.
+A "Higher or Lower" card game where you play my cat. Be careful, he cheats. Built with React, TypeScript, and Vite.
 
 **Play it live:** [https://drewwal.github.io/play-stan-webapp](https://drewwal.github.io/play-stan-webapp)
 
