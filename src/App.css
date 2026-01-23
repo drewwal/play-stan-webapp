@@ -78,45 +78,49 @@
   backdrop-filter: blur(10px);
   width: 100%;
   max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  grid-template-areas:
+    "status status"
+    "stan stan"
+    "cards controls";
 }
 
-/* Mobile: even more compact */
+/* Mobile: even more compact with 2-column layout */
 @media (max-width: 767px) {
   .game-container {
     padding: 0.5rem;
     border-radius: 12px;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-/* Desktop: Two-column layout */
+/* Grid areas for both mobile and desktop */
+.status-bar {
+  grid-area: status;
+}
+
+.stan-commentary {
+  grid-area: stan;
+}
+
+.cards {
+  grid-area: cards;
+  justify-content: flex-start;
+  margin-bottom: 0;
+}
+
+.controls {
+  grid-area: controls;
+  justify-content: flex-start;
+}
+
+/* Desktop: larger gaps */
 @media (min-width: 768px) {
   .game-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
-    grid-template-areas:
-      "status status"
-      "stan stan"
-      "cards controls";
-  }
-
-  .status-bar {
-    grid-area: status;
-  }
-
-  .stan-commentary {
-    grid-area: stan;
-  }
-
-  .cards {
-    grid-area: cards;
-    justify-content: flex-start;
-    margin-bottom: 0;
-  }
-
-  .controls {
-    grid-area: controls;
-    justify-content: flex-start;
   }
 }
 
@@ -281,6 +285,13 @@
   margin-bottom: 1.25rem;
 }
 
+@media (max-width: 767px) {
+  .cards {
+    gap: 0.35rem;
+    margin-bottom: 0;
+  }
+}
+
 .card-display {
   text-align: center;
 }
@@ -306,6 +317,15 @@
   font-weight: bold;
 }
 
+@media (max-width: 767px) {
+  .card {
+    width: 119px;
+    height: 162px;
+    border-width: 2px;
+    border-radius: 8px;
+  }
+}
+
 .card.red {
   color: #d32f2f;
 }
@@ -326,11 +346,11 @@
 
 @media (max-width: 767px) {
   .card-rank {
-    font-size: 1.75rem;
+    font-size: 2.3rem;
   }
   
   .card-suit {
-    font-size: 2rem;
+    font-size: 2.7rem;
   }
 }
 
