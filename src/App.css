@@ -589,17 +589,24 @@
   border-color: #ff9fa8;
 }
 
-/* Remove hover effects on touch devices */
+/* Remove hover/focus/active effects on touch devices */
 @media (hover: none) {
-  .guess-button.lower:hover:not(:disabled) {
+  .guess-button.lower:hover:not(:disabled),
+  .guess-button.lower:focus:not(:disabled),
+  .guess-button.lower:active:not(:disabled) {
     background: white;
     border-color: #ffb3ba;
+    color: #d55f6a;
+  }
+  
+  .guess-button.lower:focus {
+    outline: none;
   }
 }
 
 .guess-button.lower.selected {
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff4581 100%);
-  color: white;
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff4581 100%) !important;
+  color: white !important;
   border-color: #ff4581;
   border-width: 3px;
   box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.4);
@@ -615,17 +622,24 @@
   border-color: #8bd4bb;
 }
 
-/* Remove hover effects on touch devices */
+/* Remove hover/focus/active effects on touch devices */
 @media (hover: none) {
-  .guess-button.higher:hover:not(:disabled) {
+  .guess-button.higher:hover:not(:disabled),
+  .guess-button.higher:focus:not(:disabled),
+  .guess-button.higher:active:not(:disabled) {
     background: white;
     border-color: #a2d9c6;
+    color: #4d9b7f;
+  }
+  
+  .guess-button.higher:focus {
+    outline: none;
   }
 }
 
 .guess-button.higher.selected {
-  background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
-  color: white;
+  background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%) !important;
+  color: white !important;
   border-color: #37b24d;
   border-width: 3px;
   box-shadow: 0 0 0 3px rgba(81, 207, 102, 0.4);
