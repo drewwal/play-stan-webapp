@@ -7,7 +7,7 @@ export interface MessageContext {
   outcome: "win" | "loss" | "start" | "gameOver";
   bet?: number;
   chips?: number;
-  reason?: "chips" | "deck" | "tie";
+  reason?: "chips" | "deck" | "tie" | "highScore";
 }
 
 /**
@@ -172,6 +172,17 @@ export function getStanMessage(context: MessageContext): string {
         `Game complete! ${chips} chips remain. Not bad for a human! 😺`,
         `No cards left! ${chips} chips is respectable. Barely. 😼`,
         `End of deck! ${chips} chips made it through. Congrats! 😸`,
+      ];
+    } else if (reason === "highScore") {
+      messages = [
+        `🏆 NEW HIGH SCORE: ${chips} chips! I'm actually impressed. Don't let it go to your head. 😼`,
+        `🏆 ${chips} chips — a new record! I'll pretend I'm not impressed. 😏`,
+        `🏆 HIGH SCORE! ${chips} chips! Okay, maybe you're not completely terrible. 😸`,
+        `🏆 New best: ${chips} chips! I'm telling everyone I let you win. 😹`,
+        `🏆 ${chips} chips — that's a new personal best! Frame it or something. 😺`,
+        `🏆 RECORD BREAKER! ${chips} chips! ...I was going easy on you, obviously. 😼`,
+        `🏆 New high score: ${chips}! Write it down before you forget what success feels like. 😏`,
+        `🏆 ${chips} chips! A new record! Even I have to admit that's decent. 😸`,
       ];
     }
   }

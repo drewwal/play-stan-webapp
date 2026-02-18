@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { GameState, Guess } from "./game";
 import { initialState, commitGuess } from "./game";
+import { getStanMessage } from "./game";
 import { CardDisplay } from "./components/CardDisplay";
 import catImage from "./assets/cat.jpg";
 import "./App.css";
@@ -13,13 +14,28 @@ function App() {
   const [bet, setBet] = useState<number>(1);
   const [guess, setGuess] = useState<Guess | null>(null);
 
-  // Reset bet/guess when game is over
+  // High score from localStorage
+  const [highScore, setHighScore] = useState<number>(() => {
+    const stored = localStorage.getItem("highScore");
+    return stored ? Number(stored) : 0;
+  });
+
+  // Reset bet/guess when game is over, and check high score
   useEffect(() => {
     if (gameState.gameOver) {
       setGuess(null);
       setBet(1);
+
+      // Check for new high score (only counts if you survived the deck)
+      if (gameState.chips > 0 && gameState.chips > highScore) {
+        setHighScore(gameState.chips);
+        localStorage.setItem("highScore", String(gameState.chips));
+        // Append a high score message from Stan
+        const hsMessage = getStanMessage({ outcome: "gameOver", reason: "highScore", chips: gameState.chips });
+        setGameState(prev => ({ ...prev, message: hsMessage }));
+      }
     }
-  }, [gameState.gameOver]);
+  }, [gameState.gameOver]);  // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle new game
   const handleNewGame = () => {
@@ -82,6 +98,11 @@ function App() {
           <div className="status-item">
             <strong>Cards Left:</strong> {gameState.deck.length}
           </div>
+          {highScore > 0 && (
+            <div className="status-item high-score">
+              <strong>🏆 Best:</strong> {highScore}
+            </div>
+          )}
           <button className="new-game-button" onClick={handleNewGame}>
             New Game
           </button>

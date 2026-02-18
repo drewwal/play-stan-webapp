@@ -80,6 +80,7 @@ The app uses a two-column grid layout inside a white rounded container, with a p
 - Pink gradient bar displaying:
   - **Chips:** current chip count
   - **Cards Left:** remaining deck size
+  - **Best:** high score (trophy icon, gold text) — only shown after the player has completed at least one game. Persisted in `localStorage` across sessions.
   - **New Game** button (white with purple border, hover inverts)
 
 ### Stan's Commentary (full width, below status bar)
@@ -92,6 +93,7 @@ The app uses a two-column grid layout inside a white rounded container, with a p
   - **Loss:** varies by bet size and whether it was a tie
   - **Game Over (chips):** broke/bankrupt messages
   - **Game Over (deck):** reports final chip count
+  - **New High Score:** special celebratory messages when the player beats their personal best
 
 ### Card Area (left column)
 - Label: "Current Card"
@@ -173,7 +175,7 @@ interface GameState {
 
 ### Stan's Message System (`stanMessages.ts`)
 - `getStanMessage(context: MessageContext): string` — Selects a random message from categorized pools.
-- Messages are organized by outcome and further by bet size, tie status, or game-over reason.
+- Messages are organized by outcome and further by bet size, tie status, game-over reason, or high score.
 - Each category has 8-14 unique messages for variety.
 
 ### Validations
@@ -240,4 +242,7 @@ Run tests: `npm test` (watch mode) or `npx vitest run` (single run).
 - Game logic has full unit test coverage (29 tests passing).
 - `New Game` resets everything (except shuffle randomness).
 - App is responsive and works on mobile.
+- High score persists across sessions via `localStorage` and displays in the status bar.
+- Stan delivers a special message when the player sets a new high score.
+- Deployed and accessible at GitHub Pages URL.
 - Deployed and accessible at GitHub Pages URL.

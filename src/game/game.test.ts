@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { newDeck, shuffle, draw, initialState, commitGuess } from "./game";
+import { getStanMessage } from "./stanMessages";
 import type { Card } from "./types";
 
 describe("newDeck", () => {
@@ -292,5 +293,50 @@ describe("commitGuess", () => {
       expect(state.chips).toBe(originalChips);
       expect(state.deck.length).toBe(originalDeckLength);
     });
+  });
+});
+
+describe("getStanMessage", () => {
+  it("should return a string for start outcome", () => {
+    const message = getStanMessage({ outcome: "start" });
+    expect(typeof message).toBe("string");
+    expect(message.length).toBeGreaterThan(0);
+  });
+
+  it("should return a string for win outcome", () => {
+    const message = getStanMessage({ outcome: "win", bet: 2, chips: 5 });
+    expect(typeof message).toBe("string");
+    expect(message.length).toBeGreaterThan(0);
+  });
+
+  it("should return a string for loss outcome", () => {
+    const message = getStanMessage({ outcome: "loss", bet: 1, chips: 2 });
+    expect(typeof message).toBe("string");
+    expect(message.length).toBeGreaterThan(0);
+  });
+
+  it("should return a string for tie loss", () => {
+    const message = getStanMessage({ outcome: "loss", bet: 1, chips: 2, reason: "tie" });
+    expect(typeof message).toBe("string");
+    expect(message.length).toBeGreaterThan(0);
+  });
+
+  it("should return a string for game over by chips", () => {
+    const message = getStanMessage({ outcome: "gameOver", reason: "chips" });
+    expect(typeof message).toBe("string");
+    expect(message.length).toBeGreaterThan(0);
+  });
+
+  it("should return a string for game over by deck", () => {
+    const message = getStanMessage({ outcome: "gameOver", reason: "deck", chips: 10 });
+    expect(typeof message).toBe("string");
+    expect(message.length).toBeGreaterThan(0);
+  });
+
+  it("should return a high score message", () => {
+    const message = getStanMessage({ outcome: "gameOver", reason: "highScore", chips: 15 });
+    expect(typeof message).toBe("string");
+    expect(message.length).toBeGreaterThan(0);
+    expect(message).toContain("🏆");
   });
 });
